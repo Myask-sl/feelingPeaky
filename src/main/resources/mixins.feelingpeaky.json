@@ -5,7 +5,13 @@
   "refmap": "mixins.feelingpeaky.refmap.json",
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [],
+  "mixins": [
+    "MixinChunk_heightup",
+    "MixinItemMap",
+    "MixinWorld",
+    "MixinWorldProvider",
+    "MixinWorldProviderSurface"
+  ],
   "client": [],
   "server": []
 }
