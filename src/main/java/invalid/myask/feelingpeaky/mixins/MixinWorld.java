@@ -42,11 +42,19 @@ public abstract class MixinWorld implements IExpandedWorldOrProvider {
     @ModifyExpressionValue(method = {"getBlock",
         "blockExists",
         "checkChunksExist",
-        "getTileEntity",
-        "canBlockFreezeBody",
-        "canSnowAtBody"},
+        "getTileEntity"},
         at = @At("MIXINEXTRAS:EXPRESSION"))
     private boolean isInYRange (boolean old, int p_147439_1_, int p_147439_2_, int p_147439_3_) {
+        return p_147439_2_ >= getWorldMinY() && p_147439_2_ <= getWorldMaxY();
+    }
+
+    @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
+    @Expression("y >= 0 && y < 256")
+    @ModifyExpressionValue(method = {
+            "canBlockFreezeBody",
+                "canSnowAtBody"},
+    at = @At("MIXINEXTRAS:EXPRESSION"), remap = false)
+    private boolean isInYRange2 (boolean old, int p_147439_1_, int p_147439_2_, int p_147439_3_) {
         return p_147439_2_ >= getWorldMinY() && p_147439_2_ <= getWorldMaxY();
     }
 
@@ -113,7 +121,8 @@ public abstract class MixinWorld implements IExpandedWorldOrProvider {
         return original == -1 ? original : getWorldMinY() - 1;
     }
 
-    @ModifyReturnValue(method = "getBlockLightOpacity", at = @At(value = "RETURN", ordinal = 1))
+    @ModifyReturnValue(method = "getBlockLightOpacity", remap = false,
+        at = @At(value = "RETURN", ordinal = 1))
     private int newPacity (int old, int x, int y, int z) {
         return getChunkFromChunkCoords(x >> 4, z >> 4).func_150808_b(x & 15, y, z & 15);
     }

@@ -133,7 +133,7 @@ public class MixinChunk_heightup implements IExpandedChunk {
         return p_76628_2_ < getChunkMinY() || p_76628_2_ > getChunkMaxY();
     }
 
-    @Definition(id = "storageArrays", field = "storageArrays:Lnet/minecraft/world/chunk/storage/ExtendedBlockStorage[;")
+    @Definition(id = "storageArrays", field = "Lnet/minecraft/world/chunk/Chunk;storageArrays:[Lnet/minecraft/world/chunk/storage/ExtendedBlockStorage;")
     @Expression("storageArrays[?]")
     @WrapOperation(method = "*", at = @At("MIXINEXTRAS:EXPRESSION"))
     private ExtendedBlockStorage handler(ExtendedBlockStorage[] array, int index, Operation<ExtendedBlockStorage> original) {
@@ -160,7 +160,7 @@ public class MixinChunk_heightup implements IExpandedChunk {
         return result;
     }
 
-    @Definition(id = "entityLists", field = "entityLists:Ljava/util/List[;")
+    @Definition(id = "entityLists", field = "Lnet/minecraft/world/chunk/Chunk;entityLists:[Ljava/util/List;")
     @Expression("entityLists[?]")
     @WrapOperation(method = "*", at = @At("MIXINEXTRAS:EXPRESSION"))
     private List handler(List[] array, int index, Operation<ExtendedBlockStorage> original) {

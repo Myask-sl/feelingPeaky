@@ -21,6 +21,6 @@ public class MixinWorldProvider implements IExpandedWorldOrProvider {
 
     @Override
     public int getWorldMaxY() {
-        return getHeight();
+        return getHeight() - 1;
     }
 }
