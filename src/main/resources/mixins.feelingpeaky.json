@@ -1,7 +1,9 @@
 {
   "required": true,
   "minVersion": "0.8.5-GTNH",
-  "mixinextras": {"minVersion": "0.5.0"},
+  "mixinextras": {
+    "minVersion": "0.5.0"
+  },
   "package": "invalid.myask.feelingpeaky.mixins",
   "refmap": "mixins.feelingpeaky.refmap.json",
   "target": "@env(DEFAULT)",
@@ -11,8 +13,14 @@
     "MixinItemMap",
     "MixinWorld",
     "MixinWorldProvider",
-    "MixinWorldProviderSurface"
+    "MixinWorldProviderSurface",
+    "MixinChunkProviderFlat_heightup",
+    "MixinChunkProviderGenerate_heightup",
   ],
-  "client": [],
-  "server": []
+  "client": [
+    "MixinWorldClient_heightup",
+    "MixinChunkProviderClient_heightup"
+  ],
+  "server": [],
+  "//": []
 }

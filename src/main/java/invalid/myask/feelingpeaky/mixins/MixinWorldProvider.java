@@ -8,11 +8,11 @@ import org.spongepowered.asm.mixin.Shadow;
 import invalid.myask.feelingpeaky.ducks.IExpandedWorldOrProvider;
 
 @Mixin(WorldProvider.class)
-public class MixinWorldProvider implements IExpandedWorldOrProvider {
-    @Shadow
-    public int getHeight() {return 42;} //dummy
-    @Shadow
-    public int getActualHeight() {return 68;}
+public abstract class MixinWorldProvider implements IExpandedWorldOrProvider {
+    @Shadow (remap = false)
+    public abstract int getHeight();
+    @Shadow (remap = false)
+    public abstract int getActualHeight();
 
     @Override
     public int getWorldMinY() {

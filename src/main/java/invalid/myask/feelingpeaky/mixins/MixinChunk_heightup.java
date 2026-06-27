@@ -3,6 +3,7 @@ package invalid.myask.feelingpeaky.mixins;
 import java.util.List;
 
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
@@ -36,6 +37,9 @@ public class MixinChunk_heightup implements IExpandedChunk {
 
     @Shadow
     public List[] entityLists;
+
+    @Shadow
+    public World worldObj;
 
     @Override
     public int getChunkMinY() {
@@ -141,7 +145,7 @@ public class MixinChunk_heightup implements IExpandedChunk {
     }
 
     @WrapOperation(method = "addEntity",
-       at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MathHelper;floor_double(D)I"))
+       at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MathHelper;floor_double(D)I", ordinal = 2))
     private int reindexEntityAdd(double p_76128_0_, Operation<Integer> original) {
         return Math.floorMod(original.call(p_76128_0_), getSubChunkCount());
     }
@@ -156,7 +160,7 @@ public class MixinChunk_heightup implements IExpandedChunk {
         at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MathHelper;clamp_int(III)I", ordinal = 1))
     private int wrapInsteadOfClamp2(int val, int min, int max, Operation<Integer> original, @Local(ordinal = 0) int i) {
         int result = Math.floorMod(val, getSubChunkCount());
-        if (result <  i) result += entityLists.length;
+//        if (result <  i) result += entityLists.length;
         return result;
     }
 
