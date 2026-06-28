@@ -34,12 +34,12 @@ public class TallChunk extends Chunk implements IExpandedChunk {
 
     @Override
     public int getNegativeChunkCount() {
-        return ((IExpandedWorldOrProvider)worldObj).getSubChunkCount();
+        return ((IExpandedWorldOrProvider)worldObj).getNegativeChunkCount();
     }
 
     @Override
     public int getSubChunkCount() {
-        return ((IExpandedWorldOrProvider)worldObj).getNegativeChunkCount();
+        return ((IExpandedWorldOrProvider)worldObj).getSubChunkCount();
     }
 
     @Override

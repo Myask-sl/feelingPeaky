@@ -15,7 +15,7 @@ public class MixinWorldProviderSurface extends MixinWorldProvider {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void putHeight(CallbackInfo ci) {
-        CONST_HEIGHT = 16 * (getSubChunkCount() - getSubChunkCount());
+        CONST_HEIGHT = 16 * (getSubChunkCount() - getNegativeChunkCount());
     }
 
     @Override
