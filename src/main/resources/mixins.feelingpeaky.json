@@ -14,6 +14,7 @@
     "MixinChunkProviderFlat_heightup",
     "MixinChunkProviderGenerate_heightup",
     "MixinItemMap",
+    "MixinPlayerManager$PlayerInstance_heightup",
     "MixinWorld",
     "MixinWorldProvider",
     "MixinWorldProviderSurface"
