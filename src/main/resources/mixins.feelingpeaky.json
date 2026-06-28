@@ -9,17 +9,18 @@
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "MixinAnvilChunkLoader_heightup",
     "MixinChunk_heightup",
+    "MixinChunkProviderFlat_heightup",
+    "MixinChunkProviderGenerate_heightup",
     "MixinItemMap",
     "MixinWorld",
     "MixinWorldProvider",
-    "MixinWorldProviderSurface",
-    "MixinChunkProviderFlat_heightup",
-    "MixinChunkProviderGenerate_heightup",
+    "MixinWorldProviderSurface"
   ],
   "client": [
-    "MixinWorldClient_heightup",
-    "MixinChunkProviderClient_heightup"
+    "MixinChunkProviderClient_heightup",
+    "MixinWorldClient_heightup"
   ],
   "server": [],
   "//": []

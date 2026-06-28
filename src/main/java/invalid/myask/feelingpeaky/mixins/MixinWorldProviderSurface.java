@@ -3,14 +3,24 @@ package invalid.myask.feelingpeaky.mixins;
 import net.minecraft.world.WorldProviderSurface;
 
 import org.spongepowered.asm.mixin.Mixin;
-
-import invalid.myask.feelingpeaky.Config;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WorldProviderSurface.class)
 public class MixinWorldProviderSurface extends MixinWorldProvider {
+    @Unique
+    private int CONST_HEIGHT;
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void putHeight(CallbackInfo ci) {
+        CONST_HEIGHT = 16 * (getSubChunkCount() - getSubChunkCount());
+    }
+
     @Override
     public int getHeight() {
-        return 16 * (Config.SUBCHUNK_COUNT - Config.NEGATIVE_SUBCHUNK_COUNT);
+        return CONST_HEIGHT;
     }
 
     @Override
@@ -20,6 +30,6 @@ public class MixinWorldProviderSurface extends MixinWorldProvider {
 
     @Override
     public int getWorldMinY() {
-        return 16 * Config.NEGATIVE_SUBCHUNK_COUNT;
+        return 0;//16 * Config.NEGATIVE_SUBCHUNK_COUNT;
     }
 }

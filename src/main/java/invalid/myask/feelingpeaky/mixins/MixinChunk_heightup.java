@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import invalid.myask.feelingpeaky.ducks.IExpandedChunk;
+import invalid.myask.feelingpeaky.ducks.IExpandedWorldOrProvider;
 import invalid.myask.feelingpeaky.world.chunk.TallChunk;
 
 import static invalid.myask.feelingpeaky.Config.LIGHT_QUEUE_COUNT;
@@ -53,12 +54,12 @@ public class MixinChunk_heightup implements IExpandedChunk {
 
     @Override
     public int getSubChunkCount() {
-        return 16;
+        return ((IExpandedWorldOrProvider)worldObj).getSubChunkCount();
     }
 
     @Override
     public int getNegativeChunkCount() {
-        return 0;
+        return ((IExpandedWorldOrProvider)worldObj).getNegativeChunkCount();
     }
 
     @ModifyConstant(method = "<init>(Lnet/minecraft/world/World;II)V",

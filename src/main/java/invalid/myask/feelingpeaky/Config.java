@@ -7,9 +7,9 @@ import net.minecraftforge.common.config.Configuration;
 public class Config {
     public static boolean a_config;
 
-    public static int SUBCHUNK_COUNT = 24;
+    public static int SUBCHUNK_COUNT = 20;
     public static int LIGHT_QUEUE_COUNT = 4096;
-    public static int NEGATIVE_SUBCHUNK_COUNT = 4;
+    public static int NEGATIVE_SUBCHUNK_COUNT = 0;
 
 
     public static void synchronizeConfiguration(File configFile) {

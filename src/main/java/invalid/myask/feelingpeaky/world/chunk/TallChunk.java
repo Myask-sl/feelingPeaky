@@ -7,6 +7,7 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 import invalid.myask.feelingpeaky.Config;
 import invalid.myask.feelingpeaky.ducks.IExpandedChunk;
+import invalid.myask.feelingpeaky.ducks.IExpandedWorldOrProvider;
 
 public class TallChunk extends Chunk implements IExpandedChunk {
     public TallChunk(World world, int chunkX, int chunkZ) {
@@ -23,33 +24,33 @@ public class TallChunk extends Chunk implements IExpandedChunk {
 
     @Override
     public int getChunkMinY() {
-        return Config.NEGATIVE_SUBCHUNK_COUNT * -16;
+        return getNegativeChunkCount() * -16;
     }
 
     @Override
     public int getChunkMaxY() {
-        return (Config.SUBCHUNK_COUNT - Config.NEGATIVE_SUBCHUNK_COUNT) * 16 - 1;
+        return (getSubChunkCount() - getNegativeChunkCount()) * 16 - 1;
     }
 
     @Override
     public int getNegativeChunkCount() {
-        return Config.NEGATIVE_SUBCHUNK_COUNT;
+        return ((IExpandedWorldOrProvider)worldObj).getSubChunkCount();
     }
 
     @Override
     public int getSubChunkCount() {
-        return Config.SUBCHUNK_COUNT;
+        return ((IExpandedWorldOrProvider)worldObj).getNegativeChunkCount();
     }
 
     @Override
     public int getTopFilledSegment() {
         int subchunkY = super.getTopFilledSegment();
         if (subchunkY > 0 || getBlockStorageArray()[subchunkY] != null) return subchunkY;
-        for (int i = 1; i <= Config.NEGATIVE_SUBCHUNK_COUNT; i++) {
+        for (int i = 1; i <= getNegativeChunkCount(); i++) {
             if (getBlockStorageArray()[subchunkY] != null)
                 return getBlockStorageArray()[subchunkY].getYLocation();
         }
-        return Config.NEGATIVE_SUBCHUNK_COUNT * -16;
+        return getChunkMinY();
     }
 
     @Override

@@ -40,6 +40,16 @@ public abstract class MixinWorld implements IExpandedWorldOrProvider {
         return ((IExpandedWorldOrProvider)provider).getWorldMaxY();
     }
 
+    @Override
+    public int getSubChunkCount() {
+        return ((IExpandedWorldOrProvider)provider).getSubChunkCount();
+    }
+
+    @Override
+    public int getNegativeChunkCount() {
+        return ((IExpandedWorldOrProvider)provider).getNegativeChunkCount();
+    }
+
     @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
     @Expression("y >= 0")
     @ModifyExpressionValue(method = {"getBlock",
