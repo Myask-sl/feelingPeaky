@@ -127,10 +127,21 @@ public abstract class MixinWorld implements IExpandedWorldOrProvider {
         "getFullBlockLightValue",
         "getBlockLightValue_do",
         "getSkyBlockTypeBrightness",
-        "getSavedLightValue"}, //TODO: Check assignments these lead to.
+        "getSavedLightValue"},
         at = @At("MIXINEXTRAS:EXPRESSION"))
     private boolean ott (boolean old, int x, int y, int z) {
         return y > getWorldMaxY();
+    }
+
+    @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
+    @Expression("y = @(255)")
+    @ModifyExpressionValue(method = {
+        "getFullBlockLightValue",
+        "getBlockLightValue_do",
+        "getSavedLightValue"},
+        at = @At("MIXINEXTRAS:EXPRESSION"))
+    private int att (int old, int x, int y, int z) {
+        return getWorldMaxY();
     }
 
     @ModifyReturnValue(method = "getHeightValue",
