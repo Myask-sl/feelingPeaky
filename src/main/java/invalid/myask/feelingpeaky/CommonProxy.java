@@ -22,5 +22,8 @@ public class CommonProxy {
     public void postInit(FMLPostInitializationEvent event) {}
 
     // register server commands in this event handler (Remove if not needed)
-    public void serverStarting(FMLServerStartingEvent event) {}
+    public void serverStarting(FMLServerStartingEvent event) {
+        if (Config.OVERRIDE_SERVER_BUILDHEIGHT)
+            event.getServer().setBuildLimit((Config.SUBCHUNK_COUNT - Config.NEGATIVE_SUBCHUNK_COUNT) * 16);
+    }
 }

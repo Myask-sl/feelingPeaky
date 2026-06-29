@@ -11,8 +11,10 @@
   "mixins": [
     "MixinAnvilChunkLoader_heightup",
     "MixinChunk_heightup",
+    "MixinChunkCache",
     "MixinChunkProviderFlat_heightup",
     "MixinChunkProviderGenerate_heightup",
+    "MixinItemBlock",
     "MixinItemMap",
     "MixinPlayerManager$PlayerInstance_heightup",
     "MixinWorld",
@@ -21,6 +23,7 @@
   ],
   "client": [
     "MixinChunkProviderClient_heightup",
+    "MixinRenderGlobal_heightup",
     "MixinWorldClient_heightup"
   ],
   "server": [],
