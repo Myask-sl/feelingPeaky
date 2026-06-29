@@ -17,6 +17,7 @@
     "MixinItemBlock",
     "MixinItemMap",
     "MixinPlayerManager$PlayerInstance_heightup",
+    "MixinS26PacketMapChunkBulk",
     "MixinWorld",
     "MixinWorldProvider",
     "MixinWorldProviderSurface"
