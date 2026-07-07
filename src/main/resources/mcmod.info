@@ -3,7 +3,7 @@
 	"modList": [{
 		"modid": "${modId}",
 		"name": "${modName}",
-		"description": "A mod to double worldheight, including negative indices.",
+		"description": "A mod to double worldheight, including negative indices. Except for this version, which just goes upward.",
 		"version": "${modVersion}",
 		"mcversion": "${minecraftVersion}",
 		"url": "",

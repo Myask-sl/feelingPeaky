@@ -30,6 +30,6 @@ public class MixinWorldProviderSurface extends MixinWorldProvider {
 
     @Override
     public int getWorldMinY() {
-        return 0;//16 * Config.NEGATIVE_SUBCHUNK_COUNT;
+        return -16 * getNegativeChunkCount();
     }
 }
