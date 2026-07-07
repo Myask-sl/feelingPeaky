@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Slice;
 
 import invalid.myask.feelingpeaky.ducks.IExpandedWorldOrProvider;
@@ -192,5 +193,15 @@ public abstract class MixinWorld implements IExpandedWorldOrProvider {
             return getWorldMinY();
         }
         return old;
+    }
+
+    /**
+     * Make it not assume y64 exists.
+     * @param original 64
+     * @return a better assumption
+     */
+    @ModifyArg(method = "getCollidingBoundingBoxes", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;blockExists(III)Z"), index = 1)
+    private int newDefaultY(int original) {
+        return getWorldMinY();
     }
 }
