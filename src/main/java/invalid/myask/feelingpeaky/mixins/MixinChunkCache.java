@@ -1,6 +1,7 @@
 package invalid.myask.feelingpeaky.mixins;
 
 import net.minecraft.world.ChunkCache;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 import com.llamalad7.mixinextras.expression.Definition;
@@ -38,8 +39,7 @@ public abstract class MixinChunkCache implements IExpandedWorldOrProvider {
 
     @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
     @Expression("y >= 0")
-    @ModifyExpressionValue(method = {"getBlock",
-        "getSpecialBlockBrightness"},
+    @ModifyExpressionValue(method = {"getBlock"},
         at = @At("MIXINEXTRAS:EXPRESSION"))
     private boolean isInYRangeMin (boolean old, int p_147439_1_, int p_147439_2_, int p_147439_3_) {
         return p_147439_2_ >= getWorldMinY();
@@ -47,8 +47,7 @@ public abstract class MixinChunkCache implements IExpandedWorldOrProvider {
 
     @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
     @Expression("y < 256")
-    @ModifyExpressionValue(method = {"getBlock",
-        "getSpecialBlockBrightness"},
+    @ModifyExpressionValue(method = {"getBlock"},
         at = @At("MIXINEXTRAS:EXPRESSION"))
     private boolean isInYRangeMax (boolean old, int p_147439_1_, int p_147439_2_, int p_147439_3_) {
         return p_147439_2_ <= getWorldMaxY();
@@ -57,9 +56,7 @@ public abstract class MixinChunkCache implements IExpandedWorldOrProvider {
 
     @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
     @Expression("y < 0")
-    @ModifyExpressionValue(method = {"getBlockMetadata",
-        "getSkyBlockTypeBrightness",
-        "getSpecialBlockBrightness"},
+    @ModifyExpressionValue(method = {"getBlockMetadata"},
         at = @At("MIXINEXTRAS:EXPRESSION"))
     private boolean belowBottom (boolean old, int x, int y, int z) {
         return y < getWorldMinY();
@@ -67,13 +64,47 @@ public abstract class MixinChunkCache implements IExpandedWorldOrProvider {
 
     @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
     @Expression("y >= 256")
-    @ModifyExpressionValue(method = {"getBlockMetadata",
-        "getSkyBlockTypeBrightness",
-        "getSpecialBlockBrightness"},
+    @ModifyExpressionValue(method = {"getBlockMetadata"},
         at = @At("MIXINEXTRAS:EXPRESSION"))
     private boolean ott (boolean old, int x, int y, int z) {
         return y > getWorldMaxY();
     }
 
 
+    @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
+    @Expression("y >= 0")
+    @ModifyExpressionValue(method = {"getSkyBlockTypeBrightness",
+        "getSpecialBlockBrightness"},
+        at = @At("MIXINEXTRAS:EXPRESSION"))
+    private boolean isInYRangeMinLight (boolean old, EnumSkyBlock skyOrBlock, int x, int y, int z) {
+        return y >= getWorldMinY();
+    }
+
+    @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
+    @Expression("y < 256")
+    @ModifyExpressionValue(method = {"getSkyBlockTypeBrightness",
+        "getSpecialBlockBrightness"},
+        at = @At("MIXINEXTRAS:EXPRESSION"))
+    private boolean isInYRangeMaxLight (boolean old, EnumSkyBlock skyOrBlock, int x, int y, int z) {
+        return y <= getWorldMaxY();
+    }
+
+
+    @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
+    @Expression("y < 0")
+    @ModifyExpressionValue(method = {"getSkyBlockTypeBrightness",
+        "getSpecialBlockBrightness"},
+        at = @At("MIXINEXTRAS:EXPRESSION"))
+    private boolean belowBottomLight (boolean old, EnumSkyBlock skyOrBlock, int x, int y, int z) {
+        return y < getWorldMinY();
+    }
+
+    @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
+    @Expression("y >= 256")
+    @ModifyExpressionValue(method = {"getSkyBlockTypeBrightness",
+        "getSpecialBlockBrightness"},
+        at = @At("MIXINEXTRAS:EXPRESSION"))
+    private boolean ottLight (boolean old, EnumSkyBlock skyOrBlock, int x, int y, int z) {
+        return y > getWorldMaxY();
+    }
 }

@@ -131,7 +131,7 @@ public class MixinChunk_heightup implements IExpandedChunk {
 
     @Definition(id = "storageArrays", field = "Lnet/minecraft/world/chunk/Chunk;storageArrays:[Lnet/minecraft/world/chunk/storage/ExtendedBlockStorage;")
     @Expression("this.storageArrays[?] = ?")
-    @WrapOperation(method = "setLightValue", at = @At("MIXINEXTRAS:EXPRESSION"))
+    @WrapOperation(method = "*", at = @At("MIXINEXTRAS:EXPRESSION"))
     private void handleMultiAssign(ExtendedBlockStorage[] array, int index, ExtendedBlockStorage value, Operation<ExtendedBlockStorage> original) {
         array[Math.floorMod(index, array.length)] = value;
     }
