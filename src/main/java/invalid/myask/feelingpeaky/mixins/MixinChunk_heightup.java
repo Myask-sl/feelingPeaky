@@ -94,14 +94,6 @@ public class MixinChunk_heightup implements IExpandedChunk {
     }
 
     @Definition(id = "y", local = @Local(type = int.class, name = "i1"))
-    @Expression("y >> 4")
-    @ModifyExpressionValue(method = "generateSkylightMap",
-    at = @At("MIXINEXTRAS:EXPRESSION"))
-    private int accountForNegativeIndices(int original) {
-        return Math.floorMod(original, getSubChunkCount()); //Make it positive.
-    }
-
-    @Definition(id = "y", local = @Local(type = int.class, name = "i1"))
     @Expression("y > 0")
     @ModifyExpressionValue(method = {"generateSkylightMap", "relightBlock", "getPrecipitationHeight"},
         at = @At("MIXINEXTRAS:EXPRESSION"))
@@ -123,14 +115,6 @@ public class MixinChunk_heightup implements IExpandedChunk {
         return p_150810_2_ >= getChunkMinY() && p_150810_2_ <= getChunkMaxY();
     }
 
-    @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
-    @Expression("y >> 4")
-    @ModifyExpressionValue(method = "getBlock",
-        at = @At("MIXINEXTRAS:EXPRESSION"))
-    private int accountForNegativeIndices2(int original) {
-        return Math.floorMod(original, getSubChunkCount()); //Make it positive.
-    }
-
     @Expression("? >> 4 >= ?")
     @ModifyExpressionValue(method = "getBlockMetadata",
         at = @At("MIXINEXTRAS:EXPRESSION"))
@@ -139,10 +123,17 @@ public class MixinChunk_heightup implements IExpandedChunk {
     }
 
     @Definition(id = "storageArrays", field = "Lnet/minecraft/world/chunk/Chunk;storageArrays:[Lnet/minecraft/world/chunk/storage/ExtendedBlockStorage;")
-    @Expression("storageArrays[?]")
+    @Expression("this.storageArrays[?]")
     @WrapOperation(method = "*", at = @At("MIXINEXTRAS:EXPRESSION"))
     private ExtendedBlockStorage handler(ExtendedBlockStorage[] array, int index, Operation<ExtendedBlockStorage> original) {
         return array[Math.floorMod(index, array.length)];
+    }
+
+    @Definition(id = "storageArrays", field = "Lnet/minecraft/world/chunk/Chunk;storageArrays:[Lnet/minecraft/world/chunk/storage/ExtendedBlockStorage;")
+    @Expression("this.storageArrays[?] = ?")
+    @WrapOperation(method = "setLightValue", at = @At("MIXINEXTRAS:EXPRESSION"))
+    private void handleMultiAssign(ExtendedBlockStorage[] array, int index, ExtendedBlockStorage value, Operation<ExtendedBlockStorage> original) {
+        array[Math.floorMod(index, array.length)] = value;
     }
 
     @WrapOperation(method = "addEntity",

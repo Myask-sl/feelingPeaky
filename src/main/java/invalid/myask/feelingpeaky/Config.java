@@ -7,7 +7,7 @@ import net.minecraftforge.common.config.Configuration;
 public class Config {
     public static int SUBCHUNK_COUNT = 20;
     public static int LIGHT_QUEUE_COUNT = 4096;
-    public static int NEGATIVE_SUBCHUNK_COUNT = 0;
+    public static int NEGATIVE_SUBCHUNK_COUNT = 4;
     public static  boolean OVERRIDE_SERVER_BUILDHEIGHT = true;
 
 

@@ -1,7 +1,11 @@
 package invalid.myask.feelingpeaky.mixins;
 
 import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.client.renderer.WorldRenderer;
 
+import com.llamalad7.mixinextras.expression.Definition;
+import com.llamalad7.mixinextras.expression.Expression;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import org.spongepowered.asm.lib.Opcodes;
@@ -22,4 +26,12 @@ public class MixinRenderGlobal_heightup {
     private void handle(RenderGlobal heccaeity, int theWrite, Operation<Void> original) {
         original.call(heccaeity, Config.SUBCHUNK_COUNT);
     }
+
+/*    //for negaheight
+    @Definition(id = "WorldRenderer", type = WorldRenderer.class)
+    @Expression("new WorldRenderer(?, ?, ?, @(?), ?, ?)")
+    @ModifyExpressionValue(method = "loadRenderers", at = @At("MIXINEXTRAS:EXPRESSION"))
+    private int lowerBottom (int original) {
+        return original - 16 * Config.NEGATIVE_SUBCHUNK_COUNT;
+    }*/
 }
