@@ -220,12 +220,6 @@ public abstract class MixinWorld implements IExpandedWorldOrProvider {
         return original == -1 ? original : getWorldMinY() - 1;
     }
 
-    /*
-    @ModifyReturnValue(method = "getBlockLightOpacity", remap = false,
-        at = @At(value = "RETURN", ordinal = 1))
-    private int newPacity (int old, int x, int y, int z) {
-        return getChunkFromChunkCoords(x >> 4, z >> 4).func_150808_b(x & 15, y, z & 15);
-    }*/
 
     @ModifyReturnValue(method = "getChunkHeightMapMinimum", at = @At("RETURN"))
     private int fakedBottom(int old) {
