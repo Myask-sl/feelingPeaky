@@ -55,22 +55,36 @@ public abstract class MixinWorld implements IExpandedWorldOrProvider {
     @Expression("y >= 0")
     @ModifyExpressionValue(method = {"getBlock",
         "blockExists",
-        "checkChunksExist",
         "getTileEntity"},
         at = @At("MIXINEXTRAS:EXPRESSION"))
     private boolean isInYRangeMin (boolean old, int p_147439_1_, int p_147439_2_, int p_147439_3_) {
         return p_147439_2_ >= getWorldMinY();
     }
 
+    @Definition(id = "yMax", local = @Local(argsOnly = true, type = int.class, ordinal = 4))
+    @Expression("yMax >= 0")
+    @ModifyExpressionValue(method = {"checkChunksExist"},
+        at = @At("MIXINEXTRAS:EXPRESSION"))
+    private boolean isInYRangeMinSixArgs (boolean old, int xMin, int yMin, int zMin, int xMax, int yMax, int zMax) {
+        return yMax >= getWorldMinY();
+    }
+
+    @Definition(id = "yMin", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
+    @Expression("yMin < 256")
+    @ModifyExpressionValue(method = {"checkChunksExist"},
+        at = @At("MIXINEXTRAS:EXPRESSION"))
+    private boolean isInYRangeMaxSixArgs (boolean old, int xMin, int yMin, int zMin, int xMax, int yMax, int zMax) {
+        return yMin <= getWorldMaxY();
+    }
+
     @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
     @Expression("y < 256")
     @ModifyExpressionValue(method = {"getBlock",
         "blockExists",
-        "checkChunksExist",
         "getTileEntity"},
         at = @At("MIXINEXTRAS:EXPRESSION"))
-    private boolean isInYRangeMax (boolean old, int p_147439_1_, int p_147439_2_, int p_147439_3_) {
-        return p_147439_2_ <= getWorldMaxY();
+    private boolean isInYRangeMax (boolean old, int x, int y, int z) {
+        return y <= getWorldMaxY();
     }
 
     @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
@@ -79,8 +93,8 @@ public abstract class MixinWorld implements IExpandedWorldOrProvider {
             "canBlockFreezeBody",
                 "canSnowAtBody"},
     at = @At("MIXINEXTRAS:EXPRESSION"), remap = false)
-    private boolean isInYRangeMinUnmapped (boolean old, int p_147439_1_, int p_147439_2_, int p_147439_3_) {
-        return p_147439_2_ >= getWorldMinY();
+    private boolean isInYRangeMinUnmappedWithABoolean (boolean old, int x, int y, int z, boolean somethingElse) {
+        return y >= getWorldMinY();
     }
 
     @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
@@ -89,8 +103,8 @@ public abstract class MixinWorld implements IExpandedWorldOrProvider {
         "canBlockFreezeBody",
         "canSnowAtBody"},
         at = @At("MIXINEXTRAS:EXPRESSION"), remap = false)
-    private boolean isInYRangeMaxUnmapped (boolean old, int p_147439_1_, int p_147439_2_, int p_147439_3_) {
-        return p_147439_2_ <= getWorldMaxY();
+    private boolean isInYRangeMaxUnmappedWithABoolean (boolean old, int x, int y, int z, boolean somethingElse) {
+        return y <= getWorldMaxY();
     }
 
     @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
@@ -104,6 +118,15 @@ public abstract class MixinWorld implements IExpandedWorldOrProvider {
         "getSavedLightValue"},
         at = @At("MIXINEXTRAS:EXPRESSION"))
     private boolean belowBottom (boolean old, int x, int y, int z) {
+        return y < getWorldMinY();
+    }
+
+    @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
+    @Expression("y < 0")
+    @ModifyExpressionValue(method = {"getSkyBlockTypeBrightness",
+        "getSavedLightValue"},
+        at = @At("MIXINEXTRAS:EXPRESSION"))
+    private boolean belowBottomLight (boolean old, EnumSkyBlock skyOrBlock, int x, int y, int z) {
         return y < getWorldMinY();
     }
 
@@ -135,14 +158,31 @@ public abstract class MixinWorld implements IExpandedWorldOrProvider {
     }
 
     @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
+    @Expression("y >= 256")
+    @ModifyExpressionValue(method = {"getSkyBlockTypeBrightness",
+        "getSavedLightValue"},
+        at = @At("MIXINEXTRAS:EXPRESSION"))
+    private boolean ottLight (boolean old, EnumSkyBlock skyOrBlock, int x, int y, int z) {
+        return y > getWorldMaxY();
+    }
+
+    @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
     @Expression("y = @(255)")
     @ModifyExpressionValue(method = {
         "getFullBlockLightValue",
         "getBlockLightValue_do",
         "getSavedLightValue"},
         at = @At("MIXINEXTRAS:EXPRESSION"))
-    private int att (int old, int x, int y, int z) {
+    private int att (int old, @Local(argsOnly = true, type = int.class, ordinal = 1) int y) {
         return getWorldMaxY();
+    }
+
+    @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
+    @Expression("y = @(0)")
+    @ModifyExpressionValue(method = {"getSavedLightValue"},
+        at = @At("MIXINEXTRAS:EXPRESSION"))
+    private int atb (int old, @Local(argsOnly = true, type = int.class, ordinal = 1) int y) {
+        return getWorldMinY();
     }
 
     @ModifyReturnValue(method = "getHeightValue",
