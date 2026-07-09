@@ -13,6 +13,8 @@ public class Config {
 
     public static void synchronizeConfiguration(File configFile) {
         Configuration configuration = new Configuration(configFile);
+        SUBCHUNK_COUNT = configuration.getInt("SUBCHUNK_COUNT", Configuration.CATEGORY_GENERAL, SUBCHUNK_COUNT, 1, 32, "How many subchunks (16 y tall parts) per chunk total. 16 vanilla, 24 Caves and Cliffs+.");
+        NEGATIVE_SUBCHUNK_COUNT = configuration.getInt("NEGATIVE_SUBCHUNK_COUNT", Configuration.CATEGORY_GENERAL, NEGATIVE_SUBCHUNK_COUNT, 0, 32, "How many negative subchunks (16 y tall parts) per chunk. 0 vanilla, 4 Caves and Cliffs+.");
 
         OVERRIDE_SERVER_BUILDHEIGHT = configuration.getBoolean("OVERRIDE_SERVER_BUILDHEIGHT", Configuration.CATEGORY_GENERAL,
             OVERRIDE_SERVER_BUILDHEIGHT, "Whether to override server build height.");
