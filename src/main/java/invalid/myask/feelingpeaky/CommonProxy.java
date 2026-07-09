@@ -4,6 +4,11 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.relauncher.Side;
+
+import invalid.myask.feelingpeaky.network.MultiBlockChangeHandler_S22b;
+import invalid.myask.feelingpeaky.network.MultiBlockChangeMessage_S22b;
 
 
 public class CommonProxy {
@@ -13,6 +18,9 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event) {
         Config.synchronizeConfiguration(event.getSuggestedConfigurationFile());
 
+        FeelingPeaky.NETWORK_WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(FeelingPeaky.MODID);
+        FeelingPeaky.NETWORK_WRAPPER.registerMessage(MultiBlockChangeHandler_S22b.class, MultiBlockChangeMessage_S22b.class,
+            0, Side.CLIENT);
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes." (Remove if not needed)
