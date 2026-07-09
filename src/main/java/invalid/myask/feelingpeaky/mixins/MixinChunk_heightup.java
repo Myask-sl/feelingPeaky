@@ -104,7 +104,7 @@ public class MixinChunk_heightup implements IExpandedChunk {
     @Expression("? & 255")
     @ModifyExpressionValue(method = "relightBlock",
         at = @At("MIXINEXTRAS:EXPRESSION"))
-    private int reClampY255(int old, int p_76615_1_, int p_76615_2_, int p_76615_3_, @Local (name = "l") int y) {
+    private int reClampY255(int old, int p_76615_1_, int p_76615_2_, int p_76615_3_) { //, @Local (name = "l") int y) {
         return MathHelper.clamp_int(heightMap[p_76615_3_ << 4 | p_76615_1_], getChunkMinY(), getChunkMaxY());
     }
 
@@ -158,7 +158,7 @@ public class MixinChunk_heightup implements IExpandedChunk {
 
     @Definition(id = "entityLists", field = "Lnet/minecraft/world/chunk/Chunk;entityLists:[Ljava/util/List;")
     @Expression("entityLists[?]")
-    @WrapOperation(method = "*", at = @At("MIXINEXTRAS:EXPRESSION"))
+    @WrapOperation(method = "*", at = @At("MIXINEXTRAS:EXPRESSION"), expect = 0, require = 0)
     private List handler(List[] array, int index, Operation<ExtendedBlockStorage> original) {
         return array[Math.floorMod(index, array.length)];
     }

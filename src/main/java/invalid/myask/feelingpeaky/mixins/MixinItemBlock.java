@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import invalid.myask.feelingpeaky.ducks.IExpandedWorldOrProvider;
 
-@Mixin(value = {ItemBlock.class, ItemSlab.class})
+@Mixin(ItemBlock.class)
 public class MixinItemBlock {
     @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
     @Expression("y == 255")

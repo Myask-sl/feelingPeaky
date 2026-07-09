@@ -32,7 +32,7 @@ public class MultiBlockChangeMessage_S22b implements IMessage {
 
         for (int i = 0; i < count; i++) {
             xzs[i] = (byte) (packedPositions[i] >> 8);
-            subX = xzs[i] >> 4;
+            subX = (xzs[i] >> 4) & 0xF;
             subZ = xzs[i] & 0xF;
             ys[i] = y = (short) ((packedPositions[i] & 0xFF) +
                         switch (extraYbits[i]) {
