@@ -1,4 +1,4 @@
-package invalid.myask.feelingpeaky.mixins;
+package invalid.myask.feelingpeaky.mixins.client;
 
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.EntityLivingBase;

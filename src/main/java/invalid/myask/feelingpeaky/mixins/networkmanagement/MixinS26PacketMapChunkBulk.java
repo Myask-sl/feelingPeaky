@@ -1,4 +1,4 @@
-package invalid.myask.feelingpeaky.mixins;
+package invalid.myask.feelingpeaky.mixins.networkmanagement;
 
 import net.minecraft.network.play.server.S26PacketMapChunkBulk;
 

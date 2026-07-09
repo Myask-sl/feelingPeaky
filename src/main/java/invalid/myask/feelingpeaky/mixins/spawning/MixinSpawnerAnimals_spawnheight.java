@@ -1,4 +1,4 @@
-package invalid.myask.feelingpeaky.mixins;
+package invalid.myask.feelingpeaky.mixins.spawning;
 
 import java.util.Random;
 

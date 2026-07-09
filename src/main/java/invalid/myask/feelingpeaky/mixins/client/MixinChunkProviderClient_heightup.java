@@ -1,4 +1,4 @@
-package invalid.myask.feelingpeaky.mixins;
+package invalid.myask.feelingpeaky.mixins.client;
 
 import net.minecraft.client.multiplayer.ChunkProviderClient;
 import net.minecraft.world.World;

@@ -1,4 +1,4 @@
-package invalid.myask.feelingpeaky.mixins;
+package invalid.myask.feelingpeaky.mixins.networkmanagement;
 
 
 import java.util.List;

@@ -10,27 +10,27 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinAnvilChunkLoader_heightup",
-    "MixinBlockPortal$Size_PermitNegativeY",
-    "MixinBlockPortal_PermitNegativeY",
     "MixinChunk_heightup",
     "MixinChunkCache",
     "MixinChunkProviderFlat_heightup",
     "MixinChunkProviderGenerate_heightup",
     "MixinItemBlock",
     "MixinItemMap",
-    "MixinPlayerManager$PlayerInstance_heightup",
-    "MixinS26PacketMapChunkBulk",
-    "MixinSpawnerAnimals_spawnheight",
     "MixinWorld",
     "MixinWorldProvider",
     "MixinWorldProviderHell",
-    "MixinWorldProviderSurface"
+    "MixinWorldProviderSurface",
+    "networkmanagement.MixinPlayerManager$PlayerInstance_heightup",
+    "networkmanagement.MixinS26PacketMapChunkBulk",
+    "portals.MixinBlockPortal$Size_PermitNegativeY",
+    "portals.MixinBlockPortal_PermitNegativeY",
+    "spawning.MixinSpawnerAnimals_spawnheight"
   ],
   "client": [
-    "MixinChunkProviderClient_heightup",
-    "MixinEntityRenderer_fogUnBlind",
-    "MixinRenderGlobal_heightup",
-    "MixinWorldClient_heightup"
+    "client.MixinChunkProviderClient_heightup",
+    "client.MixinEntityRenderer_fogUnBlind",
+    "client.MixinRenderGlobal_heightup",
+    "client.MixinWorldClient_heightup"
   ],
   "server": [],
   "//": []
