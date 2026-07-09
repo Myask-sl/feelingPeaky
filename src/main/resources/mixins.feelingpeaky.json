@@ -18,8 +18,10 @@
     "MixinItemMap",
     "MixinPlayerManager$PlayerInstance_heightup",
     "MixinS26PacketMapChunkBulk",
+    "MixinSpawnerAnimals_spawnheight",
     "MixinWorld",
     "MixinWorldProvider",
+    "MixinWorldProviderHell",
     "MixinWorldProviderSurface"
   ],
   "client": [

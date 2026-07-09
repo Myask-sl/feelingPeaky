@@ -7,4 +7,7 @@ public interface IExpandedWorldOrProvider {
     int getSubChunkCount();
 
     int getNegativeChunkCount();
+
+    int getWorldSpawnMinY();
+    int getWorldSpawnMaxY();
 }

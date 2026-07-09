@@ -37,6 +37,16 @@ public abstract class MixinChunkCache implements IExpandedWorldOrProvider {
     @Override
     public int getNegativeChunkCount() { return ((IExpandedWorldOrProvider) worldObj.provider).getNegativeChunkCount(); }
 
+    @Override
+    public int getWorldSpawnMaxY() {
+        return ((IExpandedWorldOrProvider) worldObj.provider).getWorldSpawnMaxY();
+    }
+
+    @Override
+    public int getWorldSpawnMinY() {
+        return ((IExpandedWorldOrProvider) worldObj.provider).getWorldSpawnMinY();
+    }
+
     @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
     @Expression("y >= 0")
     @ModifyExpressionValue(method = {"getBlock"},

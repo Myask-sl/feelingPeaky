@@ -38,4 +38,14 @@ public abstract class MixinWorldProvider implements IExpandedWorldOrProvider {
     public int getNegativeChunkCount() {
         return Config.NEGATIVE_SUBCHUNK_COUNT;
     }
+
+    @Override
+    public int getWorldSpawnMaxY() {
+        return (getSubChunkCount() - getNegativeChunkCount()) * 16 - 1;
+    }
+
+    @Override
+    public int getWorldSpawnMinY() {
+        return getNegativeChunkCount() * -16;
+    }
 }
