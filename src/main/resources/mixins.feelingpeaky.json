@@ -10,6 +10,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinAnvilChunkLoader_heightup",
+    "MixinBlockPortal$Size_PermitNegativeY",
+    "MixinBlockPortal_PermitNegativeY",
     "MixinChunk_heightup",
     "MixinChunkCache",
     "MixinChunkProviderFlat_heightup",
