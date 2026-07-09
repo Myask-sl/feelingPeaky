@@ -83,7 +83,7 @@ public class MultiBlockChangeMessage_S22b implements IMessage {
     public void deploy (WorldClient world) {
         int x, z, chunkXS = chunkX << 4, chunkZS = chunkZ << 4;
         for (int i = 0; i < blockUpdateCount; i++) {
-            x = chunkXS | (xzs[i] >> 4);
+            x = chunkXS | ((xzs[i] >> 4) & 0xF);
             z = chunkZS | (xzs[i] & 0xF);
             world.func_147492_c(x, ys[i], z, Block.getBlockById(blockIDs[i]), blockMetas[i]);
         }

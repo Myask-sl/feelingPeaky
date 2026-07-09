@@ -24,6 +24,7 @@
     "networkmanagement.MixinS26PacketMapChunkBulk",
     "portals.MixinBlockPortal$Size_PermitNegativeY",
     "portals.MixinBlockPortal_PermitNegativeY",
+    "portals.MixinTeleporter",
     "spawning.MixinSpawnerAnimals_spawnheight"
   ],
   "client": [
