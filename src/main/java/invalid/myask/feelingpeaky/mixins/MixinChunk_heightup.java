@@ -42,9 +42,6 @@ public abstract class MixinChunk_heightup implements IExpandedChunk {
     @Shadow
     public World worldObj;
 
-    @Shadow
-    public abstract ExtendedBlockStorage[] getBlockStorageArray();
-
     @Override
     public int getChunkMinY() {
         return getNegativeChunkCount() * -16;
@@ -67,10 +64,10 @@ public abstract class MixinChunk_heightup implements IExpandedChunk {
 
     @ModifyReturnValue(method = "getTopFilledSegment", at = @At("RETURN"))
     private int getTopFilledNegativeSegment(int subchunkY) {
-        if (subchunkY > 0 || getBlockStorageArray()[subchunkY] != null) return subchunkY;
+        if (subchunkY > 0 || storageArrays[subchunkY] != null) return subchunkY;
         for (int i = 1; i >= getNegativeChunkCount(); i--) {
-            if (getBlockStorageArray()[getSubChunkCount() - i] != null)
-                return getBlockStorageArray()[getSubChunkCount() - i].getYLocation();
+            if (storageArrays[getSubChunkCount() - i] != null)
+                return storageArrays[getSubChunkCount() - i].getYLocation();
         }
         return getChunkMinY();
     }
@@ -85,7 +82,7 @@ public abstract class MixinChunk_heightup implements IExpandedChunk {
         if (minY < 0 || maxY < 0) {
             int subMax = Math.floorMod(maxY >> 4, getSubChunkCount());
             for (int subY = Math.floorMod(minY >> 4, getSubChunkCount()); subY < getSubChunkCount() && subY < subMax; subY++) {
-                ebs = getBlockStorageArray()[subY];
+                ebs = storageArrays[subY];
                 if (ebs != null && !ebs.isEmpty()) {
                     cir.setReturnValue(false);
                     return;
@@ -93,7 +90,7 @@ public abstract class MixinChunk_heightup implements IExpandedChunk {
             }
         } else if (minY > 256 || maxY > 256) {
             for (int subY = Math.max(minY >> 4, 16); subY < getSubChunkCount() - getNegativeChunkCount(); subY++) {
-                ebs = getBlockStorageArray()[subY];
+                ebs = storageArrays[subY];
                 if (ebs != null && !ebs.isEmpty()) {
                     cir.setReturnValue(false);
                     return;
