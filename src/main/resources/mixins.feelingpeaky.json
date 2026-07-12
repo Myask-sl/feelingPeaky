@@ -12,8 +12,6 @@
     "MixinAnvilChunkLoader_heightup",
     "MixinChunk_heightup",
     "MixinChunkCache",
-    "MixinChunkProviderFlat_heightup",
-    "MixinChunkProviderGenerate_heightup",
     "MixinItemBlock",
     "MixinItemMap",
     "MixinWorld",
@@ -28,7 +26,6 @@
     "spawning.MixinSpawnerAnimals_spawnheight"
   ],
   "client": [
-    "client.MixinChunkProviderClient_heightup",
     "client.MixinEntityRenderer_fogUnBlind",
     "client.MixinRenderGlobal_heightup",
     "client.MixinWorldClient_heightup"

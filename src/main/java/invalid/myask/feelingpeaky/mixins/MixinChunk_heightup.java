@@ -10,6 +10,7 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import com.llamalad7.mixinextras.expression.Definition;
 import com.llamalad7.mixinextras.expression.Expression;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -17,19 +18,18 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import invalid.myask.feelingpeaky.ducks.IExpandedChunk;
 import invalid.myask.feelingpeaky.ducks.IExpandedWorldOrProvider;
-import invalid.myask.feelingpeaky.world.chunk.TallChunk;
 
 import static invalid.myask.feelingpeaky.Config.LIGHT_QUEUE_COUNT;
-import static invalid.myask.feelingpeaky.Config.NEGATIVE_SUBCHUNK_COUNT;
-import static invalid.myask.feelingpeaky.Config.SUBCHUNK_COUNT;
 
 @Mixin(Chunk.class)
-public class MixinChunk_heightup implements IExpandedChunk {
+public abstract class MixinChunk_heightup implements IExpandedChunk {
     @Shadow
     public int[] heightMap;
 
@@ -42,14 +42,17 @@ public class MixinChunk_heightup implements IExpandedChunk {
     @Shadow
     public World worldObj;
 
+    @Shadow
+    public abstract ExtendedBlockStorage[] getBlockStorageArray();
+
     @Override
     public int getChunkMinY() {
-        return 0;
+        return getNegativeChunkCount() * -16;
     }
 
     @Override
     public int getChunkMaxY() {
-        return 255;
+        return (getSubChunkCount() - getNegativeChunkCount()) * 16 - 1;
     }
 
     @Override
@@ -62,16 +65,53 @@ public class MixinChunk_heightup implements IExpandedChunk {
         return ((IExpandedWorldOrProvider)worldObj).getNegativeChunkCount();
     }
 
+    @ModifyReturnValue(method = "getTopFilledSegment", at = @At("RETURN"))
+    private int getTopFilledNegativeSegment(int subchunkY) {
+        if (subchunkY > 0 || getBlockStorageArray()[subchunkY] != null) return subchunkY;
+        for (int i = 1; i >= getNegativeChunkCount(); i--) {
+            if (getBlockStorageArray()[getSubChunkCount() - i] != null)
+                return getBlockStorageArray()[getSubChunkCount() - i].getYLocation();
+        }
+        return getChunkMinY();
+    }
+
+    @Inject(method = "getAreLevelsEmpty", at = @At("HEAD"), cancellable = true)
+    private void checkOutsideChunks(int minY, int maxY, CallbackInfoReturnable<Boolean> cir) {
+        if (maxY < minY) {
+            cir.setReturnValue(true);
+            return;
+        }
+        ExtendedBlockStorage ebs;
+        if (minY < 0 || maxY < 0) {
+            int subMax = Math.floorMod(maxY >> 4, getSubChunkCount());
+            for (int subY = Math.floorMod(minY >> 4, getSubChunkCount()); subY < getSubChunkCount() && subY < subMax; subY++) {
+                ebs = getBlockStorageArray()[subY];
+                if (ebs != null && !ebs.isEmpty()) {
+                    cir.setReturnValue(false);
+                    return;
+                }
+            }
+        } else if (minY > 256 || maxY > 256) {
+            for (int subY = Math.max(minY >> 4, 16); subY < getSubChunkCount() - getNegativeChunkCount(); subY++) {
+                ebs = getBlockStorageArray()[subY];
+                if (ebs != null && !ebs.isEmpty()) {
+                    cir.setReturnValue(false);
+                    return;
+                }
+            }
+        }
+    }
+
     @ModifyConstant(method = "<init>(Lnet/minecraft/world/World;II)V",
         constant = @Constant(intValue = 16))
-    private int feelingpeaky$subChunkCount(int old) {
-        return ((Object)this) instanceof TallChunk ? SUBCHUNK_COUNT : old;
+    private int feelingpeaky$subChunkCount(int old, World world) {
+        return ((IExpandedWorldOrProvider)world).getSubChunkCount();
     }
 
     @ModifyConstant(method = "<init>(Lnet/minecraft/world/World;II)V",
         constant = @Constant(intValue = 4096))
     private int feelingpeaky$lightCount(int old) {
-        return ((Object)this) instanceof TallChunk ? LIGHT_QUEUE_COUNT : old;
+        return LIGHT_QUEUE_COUNT;
     }
 
     @ModifyConstant(method = "*", constant = @Constant(intValue = -999))
@@ -82,7 +122,7 @@ public class MixinChunk_heightup implements IExpandedChunk {
     @ModifyVariable(method = "getTopFilledSegment()I",
         at = @At(value = "STORE"), name = "i")
     private int startAtTheTop(int old) {
-        return ((Object)this) instanceof TallChunk ? old - NEGATIVE_SUBCHUNK_COUNT : old;
+        return getNegativeChunkCount();
     }
 
     @Definition(id = "y", local = @Local(type = int.class, name = "l"))
