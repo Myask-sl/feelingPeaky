@@ -8,8 +8,6 @@ public class Config {
     public static int SUBCHUNK_COUNT = 24; //TODO: make per-world
     public static int NEGATIVE_SUBCHUNK_COUNT = 4; //TODO: make per-world
 
-    public static int LIGHT_QUEUE_COUNT = 4096;
-
     public static int NETHER_SPAWN_MAX = 128;
     public static int NETHER_PORTAL_SPAWN_MAX = 128;
 

@@ -26,8 +26,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import invalid.myask.feelingpeaky.ducks.IExpandedChunk;
 import invalid.myask.feelingpeaky.ducks.IExpandedWorldOrProvider;
 
-import static invalid.myask.feelingpeaky.Config.LIGHT_QUEUE_COUNT;
-
 @Mixin(Chunk.class)
 public abstract class MixinChunk_heightup implements IExpandedChunk {
     @Shadow
@@ -103,12 +101,6 @@ public abstract class MixinChunk_heightup implements IExpandedChunk {
         constant = @Constant(intValue = 16))
     private int feelingpeaky$subChunkCount(int old, World world) {
         return ((IExpandedWorldOrProvider)world).getSubChunkCount();
-    }
-
-    @ModifyConstant(method = "<init>(Lnet/minecraft/world/World;II)V",
-        constant = @Constant(intValue = 4096))
-    private int feelingpeaky$lightCount(int old) {
-        return LIGHT_QUEUE_COUNT;
     }
 
     @ModifyConstant(method = "*", constant = @Constant(intValue = -999))
