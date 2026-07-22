@@ -17,21 +17,24 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-import invalid.myask.feelingpeaky.Config;
+import invalid.myask.feelingpeaky.ducks.IExpandedWorldOrProvider;
 
 @Mixin(RenderGlobal.class)
 public class MixinRenderGlobal_heightup {
     @Shadow
     private int renderChunksTall;
 
+    @Shadow
+    private WorldClient theWorld;
+
     @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GLAllocation;generateDisplayLists(I)I", ordinal = 0))
     private int howMany (int original) {
-        return original / 16 * Config.SUBCHUNK_COUNT;
+        return original * 2; //This is before there's a World available, so let's assume maximum.
     }
 
     @WrapOperation(method = "loadRenderers", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/RenderGlobal;renderChunksTall:I", opcode = Opcodes.PUTFIELD))
     private void handle(RenderGlobal heccaeity, int theWrite, Operation<Void> original) {
-        original.call(heccaeity, Config.SUBCHUNK_COUNT);
+        original.call(heccaeity, ((IExpandedWorldOrProvider)theWorld).getSubChunkCount());
     }
 
     @WrapOperation(method = "renderEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/WorldClient;blockExists(III)Z"))
@@ -43,12 +46,12 @@ public class MixinRenderGlobal_heightup {
     @Expression("l2 * 16")
     @ModifyExpressionValue(method = "markRenderersForNewPosition", at = @At("MIXINEXTRAS:EXPRESSION"))
     private int offsetDown(int original) {
-        return original - 16 * Config.NEGATIVE_SUBCHUNK_COUNT;
+        return original - 16 * ((IExpandedWorldOrProvider)theWorld).getNegativeChunkCount();
     }
 
     @Expression(" (? * ?.? + @(?)) * ?.? + ?")
     @ModifyExpressionValue(method = "markBlocksForUpdate", at = @At("MIXINEXTRAS:EXPRESSION"))
     private int offsetDownRenderer(int original) {
-        return (original + Config.NEGATIVE_SUBCHUNK_COUNT) % renderChunksTall;
+        return (original + ((IExpandedWorldOrProvider)theWorld).getNegativeChunkCount()) % renderChunksTall;
     }
 }
