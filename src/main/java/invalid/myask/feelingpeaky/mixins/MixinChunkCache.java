@@ -47,6 +47,11 @@ public abstract class MixinChunkCache implements IExpandedWorldOrProvider {
         return ((IExpandedWorldOrProvider) worldObj.provider).getWorldSpawnMinY();
     }
 
+    @Override
+    public double getKillPLaneY() {
+        return ((IExpandedWorldOrProvider) worldObj.provider).getKillPLaneY();
+    }
+
     @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
     @Expression("y >= 0")
     @ModifyExpressionValue(method = {"getBlock"},

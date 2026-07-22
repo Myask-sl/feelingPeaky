@@ -10,4 +10,6 @@ public interface IExpandedWorldOrProvider {
 
     int getWorldSpawnMinY();
     int getWorldSpawnMaxY();
+
+    double getKillPLaneY();
 }

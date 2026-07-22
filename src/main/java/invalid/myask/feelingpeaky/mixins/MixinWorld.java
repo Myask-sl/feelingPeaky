@@ -61,6 +61,11 @@ public abstract class MixinWorld implements IExpandedWorldOrProvider {
         return ((IExpandedWorldOrProvider) provider).getWorldSpawnMinY();
     }
 
+    @Override
+    public double getKillPLaneY() {
+        return ((IExpandedWorldOrProvider) provider).getKillPLaneY();
+    }
+
     @Definition(id = "y", local = @Local(argsOnly = true, type = int.class, ordinal = 1))
     @Expression("y >= 0")
     @ModifyExpressionValue(method = {"getBlock",

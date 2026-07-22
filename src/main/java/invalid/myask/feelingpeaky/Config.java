@@ -7,6 +7,7 @@ import net.minecraftforge.common.config.Configuration;
 public class Config {
     public static int SUBCHUNK_COUNT = 24; //TODO: make per-world
     public static int NEGATIVE_SUBCHUNK_COUNT = 4; //TODO: make per-world
+    public static float VOID_PLANE_Y = -128;
 
     public static int NETHER_SPAWN_MAX = 128;
     public static int NETHER_PORTAL_SPAWN_MAX = 128;
@@ -22,6 +23,8 @@ public class Config {
         NEGATIVE_SUBCHUNK_COUNT = configuration.getInt("NEGATIVE_SUBCHUNK_COUNT", Configuration.CATEGORY_GENERAL,
             NEGATIVE_SUBCHUNK_COUNT, 0, 32,
             "How many negative subchunks (16 y tall parts) per chunk. 0 vanilla, 4 Caves and Cliffs+.");
+        VOID_PLANE_Y = configuration.getFloat("VOID_PLANE_Y", Configuration.CATEGORY_GENERAL,
+            VOID_PLANE_Y, (float) -2E100, 0, "Y level of semihard void killplane, at which live things take damage and nonlive things evaporate (old vanilla -64.0, new vanilla -128 = bottom of world -64. Bedrock is bottom -17.)");
 
         NETHER_SPAWN_MAX = configuration.getInt("NETHER_SPAWN_MAX", Configuration.CATEGORY_GENERAL,
             NETHER_SPAWN_MAX, 1, Integer.MAX_VALUE,

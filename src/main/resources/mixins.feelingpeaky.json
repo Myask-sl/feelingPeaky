@@ -12,6 +12,7 @@
     "MixinAnvilChunkLoader_heightup",
     "MixinChunk_heightup",
     "MixinChunkCache",
+    "MixinEntityAdjustKillPlane",
     "MixinItemBlock",
     "MixinItemMap",
     "MixinWorld",

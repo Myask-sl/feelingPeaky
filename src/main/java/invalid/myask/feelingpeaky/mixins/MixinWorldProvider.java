@@ -48,4 +48,9 @@ public abstract class MixinWorldProvider implements IExpandedWorldOrProvider {
     public int getWorldSpawnMinY() {
         return getNegativeChunkCount() * -16;
     }
+
+    @Override
+    public double getKillPLaneY() {
+        return Config.VOID_PLANE_Y;
+    }
 }
